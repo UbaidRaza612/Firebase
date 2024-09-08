@@ -12,9 +12,9 @@ let password = document.querySelector("#password");
 const signUp = document.querySelector(".sign-up");
 const login = document.querySelector(".login");
 let google = document.querySelector("#google");
-
+let result = document.querySelector("#result");
 // Sign Up
-if (signUp) {
+if (location.pathname === "/html/signUp.html") {
   let btn = document.querySelector("#submit");
   btn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -28,36 +28,13 @@ if (signUp) {
       })
       .catch((error) => {
         console.log(error);
-      });
-  });
-
-  // Google Login
-  google.addEventListener("click", () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
+        result.innerHTML = error.code;
+        result.style.color = "red";
       });
   });
 
   // Login
-} else if (login) {
+} else if (location.pathname === "/html/login.html") {
   const loginBtn = document.getElementById("login");
   loginBtn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -72,17 +49,19 @@ if (signUp) {
       })
       .catch((error) => {
         console.log(error);
+        result.innerHTML = error.code;
+        result.style.color = "red";
       });
   });
-} else {
+} else if (location.pathname === "/html/index.html") {
   const logOut = document.getElementById("logOut");
 
   logOut.addEventListener("click", () => {
+    console.log(logOut);
     signOut(auth)
       .then(() => {
         location.replace("login.html");
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
   });
 }
